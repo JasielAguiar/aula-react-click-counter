@@ -1,23 +1,55 @@
-import { useState } from "react"; 
+import React, { useState } from 'react';
+import './App.css';
 
-export default function App() {
-  const [count, setCount] = useState(0);
+function App() {
+  const [nome, setNome] = useState('');
+  const [mostrarMensagem, setMostrarMensagem] = useState(false);
+
+  const handleEntrar = () => {
+    const nomeLimpo = nome.trim();
+
+    if (nomeLimpo === '') {
+      alert('O nome é obrigatório.');
+    } else if (/\d/.test(nomeLimpo)) {
+      alert('O nome não pode conter números.');
+    } else {
+      setMostrarMensagem(true);
+    }
+  };
+
+  const handleVoltar = () => {
+    setNome('');
+    setMostrarMensagem(false);
+  };
 
   return (
-    <main style={{minHeight:"100dvh",display:"grid",placeItems:"center",fontFamily:"system-ui"}}>
-      <div style={{borderRadius:16,padding:24,textAlign:"center"}}>
-        <h1>Contador de Cliques</h1>
-        <p>Você clicou <strong>{count}</strong> vez(es).</p>
-        <button onClick={()=> setCount(c=>c+1)} style={{padding:"10px 16px",borderRadius:12,cursor:"pointer"}}>
-          Clique aqui
-        </button>
-        {count> 0 &&(
-          <button onClick={()=> setCount(0)} style={{marginLeft:8,padding:"10px 16px",borderRadius:12,cursor:"pointer"}}>
-            Zerar 
+    <div className="container">
+      {!mostrarMensagem ? (
+        <>
+          <input
+            type="text"
+            placeholder="Digite seu nome..."
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            className="input"
+          />
+          <button onClick={handleEntrar} className="button">
+            Entrar
           </button>
-        )}
-      </div>
-    </main>
+        </>
+      ) : (
+        <>
+          <h2>Seja bem-vindo, {nome}!</h2>
+          <button onClick={handleVoltar} className="button">
+            Voltar
+          </button>
+        </>
+      )}
+    </div>
   );
 }
+
+export default App;
+import './App.css';
+
 
